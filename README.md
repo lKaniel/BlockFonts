@@ -11,7 +11,7 @@ You can create text frame using command:
 
 Make sure that you selected the region in world edit before creating.
 
-Than you can add some language frames into your main frame. You need to select your text using world edit and make sure that your selection maches main one.
+After that you can create your language frames with some text. Than you can add this language frames into your main frame. You need to select your text using world edit and make sure that your selection maches main one. Also important that text will be placed to main frame in the same rotation as it build, it's working like world edit's copy command.
 
 The command for it:
 ```sh
