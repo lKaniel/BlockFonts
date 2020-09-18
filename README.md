@@ -2,7 +2,7 @@
 BlockFonts is an addon for plugin Triton which allows using it in texts from blocks.
 
 # Usage
-First of all you need to create text frame. Text frame is an area in which your text will be placed. 
+First of all you have to check your installed plugins, BlockFonts depends on Triton and WorldEdit. Then you need to create text frame. Text frame is an area in which your text will be placed. 
 
 You can create text frame using command:
 ```sh
