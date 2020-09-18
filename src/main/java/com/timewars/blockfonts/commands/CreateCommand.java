@@ -55,7 +55,7 @@ public class CreateCommand implements TabExecutor {
                 }
                 return true;
             }
-            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame create <frame-name>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try:\n/textFrame create <frame-name>");
         }
         return false;
     }

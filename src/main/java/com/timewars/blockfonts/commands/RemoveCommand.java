@@ -44,7 +44,7 @@ public class RemoveCommand implements TabExecutor {
                     blockFonts.sendWarpedMessage(player, ChatColor.RED + "Text frame with name " + ChatColor.AQUA + ChatColor.BOLD + name + ChatColor.RESET + ChatColor.RED + " doesn't exist");
                 }
             }
-            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame remove <frame-name>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try:\n/textFrame remove <frame-name>");
         }
         return false;
     }

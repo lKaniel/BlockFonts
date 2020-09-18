@@ -77,6 +77,7 @@ public final class BlockFonts extends JavaPlugin {
         textFrame.registerCommand("remove", new RemoveCommand(this));
         textFrame.registerCommand("addLangFrame", new AddLangFrameCommand(this));
         textFrame.registerCommand("removeLangFrame", new RemoveLangFrameCommand(this));
+        textFrame.registerCommand("list", new ListCommand(this));
         Objects.requireNonNull(getCommand("textFrame")).setExecutor(textFrame);
         Objects.requireNonNull(getCommand("textFrame")).setTabCompleter(textFrame);
     }
@@ -142,6 +143,18 @@ public final class BlockFonts extends JavaPlugin {
     //Get Map of all text frames
     public Map<String, TextFrame> getTextFrameMap() {
         return textFrameMap;
+    }
+
+    //Send to player list of all current
+    public void printListOfTextFrames(Player player) {
+        StringBuilder result = new StringBuilder(ChatColor.DARK_GRAY + "-------[ " + ChatColor.AQUA + ChatColor.BOLD + "TextFrames" + ChatColor.DARK_GRAY + " ]-------");
+        for (Map.Entry<String, TextFrame> entry : textFrameMap.entrySet()) {
+            result.append("\n")
+                    .append(ChatColor.AQUA + "" + ChatColor.BOLD + entry.getKey() + ": " + ChatColor.GRAY + "[")
+                    .append(entry.getValue().getCreatedLanguages())
+                    .append(ChatColor.GRAY + "]");
+        }
+        player.sendMessage(String.valueOf(result));
     }
 
     //Get triton plugin instance

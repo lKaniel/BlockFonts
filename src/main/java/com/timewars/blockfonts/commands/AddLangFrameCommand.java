@@ -77,7 +77,7 @@ public class AddLangFrameCommand implements TabExecutor {
                     return false;
                 }
             }
-            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame addLangFrame <frame-name> <language>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try:\n/textFrame addLangFrame <frame-name> <language>");
         }
         return false;
     }

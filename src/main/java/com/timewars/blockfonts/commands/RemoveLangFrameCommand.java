@@ -59,7 +59,7 @@ public class RemoveLangFrameCommand implements TabExecutor {
                 blockFonts.sendWarpedMessage(player, ChatColor.GRAY + "You successfully removed lang " + ChatColor.AQUA + ChatColor.BOLD + language.getDisplayName() + ChatColor.RESET + ChatColor.GRAY + " from text frame " + ChatColor.AQUA + ChatColor.BOLD + name);
                 return true;
             }
-            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame addLangFrame <frame-name> <language>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try:\n/textFrame addLangFrame <frame-name> <language>");
         }
         return false;
     }

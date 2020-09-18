@@ -1,5 +1,9 @@
 package com.timewars.blockfonts.textFrame;
 
+import com.rexcantor64.triton.api.language.Language;
+import com.timewars.blockfonts.BlockFonts;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -7,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TextFrame {
@@ -66,6 +71,27 @@ public class TextFrame {
                 }
             }
         }
+    }
+
+    public String getCreatedLanguages() {
+        BlockFonts blockFonts = (BlockFonts) Bukkit.getServer().getPluginManager().getPlugin("BlockFonts");
+        List<Language> languages = blockFonts.getTriton().getLanguageManager().getAllLanguages();
+        boolean containsAll = true;
+        for (Language language : languages) {
+            if (!langBounds.containsKey(language.getName())) {
+                containsAll = false;
+                break;
+            }
+        }
+        StringBuilder result = new StringBuilder(ChatColor.RESET + "" + ChatColor.GRAY + "langs: " + ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "All");
+        if (!containsAll) {
+            result = new StringBuilder(ChatColor.RESET + "" + ChatColor.GRAY + "langs: ");
+            for (String lang : langBounds.keySet()) {
+                Language language = blockFonts.getTriton().getLanguageManager().getLanguageByName(lang, true);
+                result.append(language.getDisplayName()).append(" ");
+            }
+        }
+        return String.valueOf(result);
     }
 
     @Override
