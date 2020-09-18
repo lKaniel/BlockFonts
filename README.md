@@ -23,6 +23,17 @@ After this step everything will work properly, you can test it simply by changin
 /lang
 ```
 
+If you want to change lang frame simply execute command of creation, it will override previous one automatically.
+
+To delete text frame or lang frame you need to execute these commands:  
+```sh
+/textFrame remove <frame-name> 
+```
+```sh
+/textframe removeLangFrame <frame-name> <language-name>
+``` 
+
+
 So, as you can see, the usage is really simple. Feel free using this addon.
 
 # Contact
