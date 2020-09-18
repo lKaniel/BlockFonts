@@ -18,7 +18,6 @@ public class PlayerChangeLangEventListener implements Listener {
     public void onPlayerChangeLang(PlayerChangeLanguageSpigotEvent playerChangeLanguageSpigotEvent){
         LanguagePlayer languagePlayer = playerChangeLanguageSpigotEvent.getLanguagePlayer();
         blockFonts.updatePlayerFrames(languagePlayer);
-        System.out.println(blockFonts.getTriton().getLanguageManager().getAllLanguages());
     }
 
 }
