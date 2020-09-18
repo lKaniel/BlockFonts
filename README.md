@@ -1,5 +1,5 @@
 # BlockFonts
-BlockFonts is an addon for plugin Triton which allows using Triton in texts from blocks.
+BlockFonts is an addon for plugin Triton which allows using it in texts from blocks.
 
 # Usage
 First of all you need to create text frame. Text frame is an area in which your text will be placed. 
