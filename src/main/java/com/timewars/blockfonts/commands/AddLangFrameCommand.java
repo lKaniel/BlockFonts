@@ -38,9 +38,22 @@ public class AddLangFrameCommand implements TabExecutor {
             if (args.length == 2) {
                 String name = args[0];
                 if (!blockFonts.getTextFrameMap().containsKey(name)) {
-                    player.sendMessage(ChatColor.RED + "Text frame with name " + name + " doesn't exists");
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "Text frame with name " + ChatColor.AQUA + ChatColor.BOLD + name + ChatColor.RESET + ChatColor.RED + " doesn't exists");
+                    return false;
                 }
                 String lang = args[1];
+                List<Language> languages = blockFonts.getTriton().getLanguageManager().getAllLanguages();
+                boolean isValid = false;
+                for (Language language : languages) {
+                    if (language.getName().equalsIgnoreCase(lang)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (!isValid) {
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "Language with code " + ChatColor.DARK_AQUA + ChatColor.BOLD + lang + ChatColor.RESET + ChatColor.RED + " doesn't exists");
+                    return false;
+                }
                 WorldEditPlugin worldEditPlugin = blockFonts.getWorldEditPlugin();
                 try {
                     Region region = worldEditPlugin.getSession(player).getSelection(worldEditPlugin.getSession(player).getSelectionWorld());
@@ -55,16 +68,16 @@ public class AddLangFrameCommand implements TabExecutor {
                     int y2 = min.getY();
                     int z2 = min.getZ();
                     Location minLoc = new Location(world, x2, y2, z2);
+                    Language language = blockFonts.getTriton().getLanguageManager().getLanguageByName(lang, true);
                     blockFonts.addLangFrame(name, lang, maxLoc, minLoc);
-                    player.sendMessage(ChatColor.GREEN + "You successfully added language text frame " + name);
+                    blockFonts.sendWarpedMessage(player, ChatColor.GRAY + "You successfully added lang " + language.getDisplayName() + ChatColor.RESET + ChatColor.GRAY + " to the text frame " + ChatColor.AQUA + ChatColor.BOLD + name);
                     return true;
                 } catch (IncompleteRegionException e) {
-                    e.printStackTrace();
-                    player.sendMessage(ChatColor.RED + "You have to select a region to add language to text frame");
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "You have to select a region to add language to text frame");
                     return false;
                 }
             }
-            player.sendMessage(ChatColor.RED + "Wrong command usage, try /textFrame addLangFrame <frame-name> <language>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame addLangFrame <frame-name> <language>");
         }
         return false;
     }
@@ -75,20 +88,17 @@ public class AddLangFrameCommand implements TabExecutor {
         if (args.length == 1) {
             String message = args[0];
             Map<String, TextFrame> textFrameMap = blockFonts.getTextFrameMap();
-            for (String name : textFrameMap.keySet()){
-                if (name.toLowerCase().contains(message.toLowerCase())){
+            for (String name : textFrameMap.keySet()) {
+                if (name.toLowerCase().contains(message.toLowerCase())) {
                     list.add(name);
                 }
             }
-        }else if (args.length == 2){
+        } else if (args.length == 2) {
             String message = args[1];
             List<Language> languages = blockFonts.getTriton().getLanguageManager().getAllLanguages();
-            for (Language language : languages){
+            for (Language language : languages) {
                 String name = language.getName();
-                System.out.println(name);
-                System.out.println(name.toLowerCase());
-                System.out.println(name.contains(message));
-                if (name.toLowerCase().contains(message.toLowerCase())){
+                if (name.toLowerCase().contains(message.toLowerCase())) {
                     list.add(name);
                 }
             }

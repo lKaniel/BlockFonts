@@ -37,7 +37,14 @@ public class MainCommand implements TabExecutor {
 
             return subCommands.get(newLabel).onCommand(sender, command, newLabel, newArgs);
         }else{
-            sender.sendMessage(ChatColor.RED + "Unknown command, please try again");
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (!player.hasPermission("blockFonts.use")) {
+                    sender.sendMessage(ChatColor.RED + "Unknown command, please try again");
+                    return true;
+                }
+            }
+//            sender.sendMessage(ChatColor.RED + "Unknown command, please try again");
         }
         return false;
     }

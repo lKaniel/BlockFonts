@@ -36,11 +36,15 @@ public class RemoveCommand implements TabExecutor {
             Player player = (Player) sender;
             if (args.length == 1) {
                 String name = args[0];
-                blockFonts.removeTextFrame(name);
-                player.sendMessage(ChatColor.GREEN + "You successfully removed text frame " + name);
-                return true;
+                if (blockFonts.getTextFrameMap().containsKey(name)) {
+                    blockFonts.removeTextFrame(name);
+                    blockFonts.sendWarpedMessage(player, ChatColor.GRAY + "You successfully removed text frame " + ChatColor.AQUA + ChatColor.BOLD + name);
+                    return true;
+                } else {
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "Text frame with name " + ChatColor.AQUA + ChatColor.BOLD + name + ChatColor.RESET + ChatColor.RED + " doesn't exist");
+                }
             }
-            player.sendMessage(ChatColor.RED + "Wrong command usage, try /textFrame remove <frame-name>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame remove <frame-name>");
         }
         return false;
     }
@@ -51,8 +55,8 @@ public class RemoveCommand implements TabExecutor {
         if (args.length == 1) {
             String message = args[0];
             Map<String, TextFrame> textFrameMap = blockFonts.getTextFrameMap();
-            for (String name : textFrameMap.keySet()){
-                if (name.toLowerCase().contains(message.toLowerCase())){
+            for (String name : textFrameMap.keySet()) {
+                if (name.toLowerCase().contains(message.toLowerCase())) {
                     list.add(name);
                 }
             }

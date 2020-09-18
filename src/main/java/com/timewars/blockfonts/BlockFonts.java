@@ -62,7 +62,7 @@ public final class BlockFonts extends JavaPlugin {
     }
 
     //initialize text frames from local storage
-    public void innitStorage(){
+    public void innitStorage() {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         configManager = new ConfigManager();
@@ -71,7 +71,7 @@ public final class BlockFonts extends JavaPlugin {
     }
 
     //Register all commands
-    public void registerCommands(){
+    public void registerCommands() {
         MainCommand textFrame = new MainCommand();
         textFrame.registerCommand("create", new CreateCommand(this));
         textFrame.registerCommand("remove", new RemoveCommand(this));
@@ -82,12 +82,12 @@ public final class BlockFonts extends JavaPlugin {
     }
 
     //Register all event listeners
-    public void registerEventListeners(){
+    public void registerEventListeners() {
         pluginManager.registerEvents(new PlayerChangeLangEventListener(this), this);
     }
 
     //Connect to depended plugins
-    public void connectToPlugins(){
+    public void connectToPlugins() {
         triton = TritonAPI.getInstance();
         worldEditPlugin = (WorldEditPlugin) pluginManager.getPlugin("WorldEdit");
 
@@ -98,39 +98,45 @@ public final class BlockFonts extends JavaPlugin {
         log(ChatColor.AQUA + " BlockFonts: " + (this.isEnabled() ? ChatColor.GREEN + "Enabled" : ChatColor.RED + "Disabled"));
     }
 
+    //Send warped player message
+    public void sendWarpedMessage(Player player, String message) {
+        String warpedMessage = ChatColor.AQUA + "BlockFonts " + ChatColor.GOLD + "» " + ChatColor.RESET + message;
+        player.sendMessage(warpedMessage);
+    }
+
     //Load text frame from local storage
-    public void loadTextFrame(String name, TextFrame textFrame){
+    public void loadTextFrame(String name, TextFrame textFrame) {
         textFrameMap.put(name, textFrame);
     }
 
     //Create new text frame
-    public void createTextFrame(String name, Location max, Location min){
+    public void createTextFrame(String name, Location max, Location min) {
         textFrameMap.put(name, new TextFrame(max, min));
         configManager.saveTextFrames();
     }
 
     //Add language bound to existing text frame
-    public void addLangFrame(String name, String lang, Location max, Location min){
+    public void addLangFrame(String name, String lang, Location max, Location min) {
         textFrameMap.get(name).addLangBound(lang, max, min);
         configManager.saveTextFrames();
     }
 
     //remove text frame
-    public void removeTextFrame(String name){
+    public void removeTextFrame(String name) {
         textFrameMap.remove(name);
         configManager.saveTextFrames();
     }
 
     //remove language bound from existing text frame
-    public void removeLangFrame(String name, String lang){
+    public void removeLangFrame(String name, String lang) {
         TextFrame textFrame = textFrameMap.get(name);
         textFrame.removeLangBound(lang);
     }
 
     //Update all text frames for the player
-    public void updatePlayerFrames(LanguagePlayer languagePlayer){
+    public void updatePlayerFrames(LanguagePlayer languagePlayer) {
         Player player = Bukkit.getPlayer(languagePlayer.getUUID());
-        new TextFrameRunnable(player.getDisplayName() + "-thread-" + languagePlayer.getLang().getName(),languagePlayer, this).start();
+        new TextFrameRunnable(player.getDisplayName() + "-thread-" + languagePlayer.getLang().getName(), languagePlayer, this).start();
     }
 
     //Get Map of all text frames
@@ -150,6 +156,6 @@ public final class BlockFonts extends JavaPlugin {
 
     //Send message to server console
     public void log(String message) {
-        console.sendMessage("[LobbyApi] " + message);
+        console.sendMessage("[BlockFonts] " + message);
     }
 }

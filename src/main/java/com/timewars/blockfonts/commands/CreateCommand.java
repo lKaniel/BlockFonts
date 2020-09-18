@@ -49,14 +49,13 @@ public class CreateCommand implements TabExecutor {
                     int z2 = min.getZ();
                     Location minLoc = new Location(world, x2, y2, z2);
                     blockFonts.createTextFrame(name, maxLoc, minLoc);
-                    player.sendMessage(ChatColor.GREEN + "You successfully created text frame " + name);
+                    blockFonts.sendWarpedMessage(player, ChatColor.GRAY + "You successfully created text frame " + ChatColor.AQUA + ChatColor.BOLD + name);
                 } catch (IncompleteRegionException e) {
-                    e.printStackTrace();
-                    player.sendMessage(ChatColor.RED + "You have to select a region to create text frame");
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "You have to select a region to create text frame");
                 }
                 return true;
             }
-            player.sendMessage(ChatColor.RED + "Wrong command usage, try /textFrame create <frame-name>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame create <frame-name>");
         }
         return false;
     }

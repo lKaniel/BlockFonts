@@ -38,13 +38,28 @@ public class RemoveLangFrameCommand implements TabExecutor {
             if (args.length == 2) {
                 String name = args[0];
                 if (!blockFonts.getTextFrameMap().containsKey(name)) {
-                    player.sendMessage(ChatColor.RED + "Text frame with name " + name + " doesn't exists");
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "Text frame with name " + ChatColor.AQUA + ChatColor.BOLD + name + ChatColor.RESET + ChatColor.RED + " doesn't exists");
+                    return false;
                 }
                 String lang = args[1];
+                List<Language> languages = blockFonts.getTriton().getLanguageManager().getAllLanguages();
+                boolean isValid = false;
+                for (Language language : languages) {
+                    if (language.getName().equalsIgnoreCase(lang)) {
+                        isValid = true;
+                        break;
+                    }
+                }
+                if (!isValid) {
+                    blockFonts.sendWarpedMessage(player, ChatColor.RED + "Language with code " + ChatColor.DARK_AQUA + ChatColor.BOLD + lang + ChatColor.RESET + ChatColor.RED + " doesn't exists");
+                    return false;
+                }
                 blockFonts.removeLangFrame(name, lang);
+                Language language = blockFonts.getTriton().getLanguageManager().getLanguageByName(lang, true);
+                blockFonts.sendWarpedMessage(player, ChatColor.GRAY + "You successfully removed lang " + ChatColor.AQUA + ChatColor.BOLD + language.getDisplayName() + ChatColor.RESET + ChatColor.GRAY + " from text frame " + ChatColor.AQUA + ChatColor.BOLD + name);
                 return true;
             }
-            player.sendMessage(ChatColor.RED + "Wrong command usage, try /textFrame addLangFrame <frame-name> <language>");
+            blockFonts.sendWarpedMessage(player, ChatColor.RED + "Wrong command usage, try " + ChatColor.AQUA + "/textFrame addLangFrame <frame-name> <language>");
         }
         return false;
     }
