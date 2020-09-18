@@ -23,7 +23,7 @@ After this step everything will work properly, you can test it simply by changin
 /lang
 ```
 
-So, as you can see, the usage is really simple. Feel free of using this addon.
+So, as you can see, the usage is really simple. Feel free using this addon.
 
 # Contact
 If you have any questions you can contact me in diskord by private message to
