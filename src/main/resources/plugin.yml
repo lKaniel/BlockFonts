@@ -1,0 +1,16 @@
+name: BlockFonts
+version: ${project.version}
+main: com.timewars.blockfonts.BlockFonts
+api-version: 1.16
+authors: [ Vitshev ]
+description: Plugin to get ability to create block texts
+depend:
+  - Triton
+  - WorldEdit
+commands:
+  textFrame:
+    description: MainBlockFontsCommand
+permissions:
+  blockFonts.use:
+    default: op
+    description: Use the plugin
