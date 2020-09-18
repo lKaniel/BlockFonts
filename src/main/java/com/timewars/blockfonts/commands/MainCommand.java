@@ -27,7 +27,7 @@ public class MainCommand implements TabExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("blockFonts.use")) {
                 sender.sendMessage(ChatColor.RED + "Unknown command, please try again");
-                return false;
+                return true;
             }
             String newLabel = args[0];
             String[] newArgs = new String[args.length - 1];

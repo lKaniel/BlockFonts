@@ -9,8 +9,13 @@ depend:
   - WorldEdit
 commands:
   textFrame:
-    description: MainBlockFontsCommand
+    description: Main BlockFonts Command
+    usage: |
+      /<command> create <frame-name> - create text frame.
+      /<command> remove <frame-name> - remove text frame.
+      /<command> addLangFrame <frame-name> <lang> - add lang for frame.
+      /<command> removeLangFrame <frame-name> <lang> - remove lang from frame.
 permissions:
   blockFonts.use:
     default: op
-    description: Use the plugin
+    description: Use the plugin config

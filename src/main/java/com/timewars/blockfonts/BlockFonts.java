@@ -4,12 +4,11 @@ import com.rexcantor64.triton.api.Triton;
 import com.rexcantor64.triton.api.TritonAPI;
 import com.rexcantor64.triton.api.players.LanguagePlayer;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.timewars.blockfonts.commands.AddLangFrameCommand;
-import com.timewars.blockfonts.commands.CreateCommand;
-import com.timewars.blockfonts.commands.MainCommand;
+import com.timewars.blockfonts.commands.*;
 import com.timewars.blockfonts.files.ConfigManager;
 import com.timewars.blockfonts.listeners.PlayerChangeLangEventListener;
 import com.timewars.blockfonts.textFrame.TextFrame;
+import com.timewars.blockfonts.textFrame.TextFrameRunnable;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -75,7 +74,9 @@ public final class BlockFonts extends JavaPlugin {
     public void registerCommands(){
         MainCommand textFrame = new MainCommand();
         textFrame.registerCommand("create", new CreateCommand(this));
+        textFrame.registerCommand("remove", new RemoveCommand(this));
         textFrame.registerCommand("addLangFrame", new AddLangFrameCommand(this));
+        textFrame.registerCommand("removeLangFrame", new RemoveLangFrameCommand(this));
         Objects.requireNonNull(getCommand("textFrame")).setExecutor(textFrame);
         Objects.requireNonNull(getCommand("textFrame")).setTabCompleter(textFrame);
     }
@@ -114,12 +115,22 @@ public final class BlockFonts extends JavaPlugin {
         configManager.saveTextFrames();
     }
 
+    //remove text frame
+    public void removeTextFrame(String name){
+        textFrameMap.remove(name);
+        configManager.saveTextFrames();
+    }
+
+    //remove language bound from existing text frame
+    public void removeLangFrame(String name, String lang){
+        TextFrame textFrame = textFrameMap.get(name);
+        textFrame.removeLangBound(lang);
+    }
+
     //Update all text frames for the player
     public void updatePlayerFrames(LanguagePlayer languagePlayer){
         Player player = Bukkit.getPlayer(languagePlayer.getUUID());
-        for (Map.Entry<String, TextFrame> entry : textFrameMap.entrySet()){
-            entry.getValue().replaceWithLang(languagePlayer.getLang().getName(), player);
-        }
+        new TextFrameRunnable(player.getDisplayName() + "-thread-" + languagePlayer.getLang().getName(),languagePlayer, this).start();
     }
 
     //Get Map of all text frames

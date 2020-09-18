@@ -32,8 +32,13 @@ public class TextFrame {
         langBounds.put(lang, bound);
     }
 
+    //remove language bound from the text frame
+    public void removeLangBound(String lang) {
+        langBounds.remove(lang);
+    }
+
     //Update text frame for the player
-    public void replaceWithLang(String lang, Player player) {
+    synchronized public void replaceWithLang(String lang, Player player) {
         Bound bound = langBounds.get(lang);
         if (bound == null) {
             bound = langBounds.get("en_GB");
