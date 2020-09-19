@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TextFrame {
+    BlockFonts blockFonts;
 
     //Bound of the text frame
     Bound mainBound;
@@ -22,13 +23,15 @@ public class TextFrame {
     //Map of all bounds of the text frame
     Map<String, Bound> langBounds;
 
-    public TextFrame(Location max, Location min) {
+    public TextFrame(Location max, Location min, BlockFonts blockFonts) {
         this.mainBound = new Bound(max, min);
         this.langBounds = new HashMap<>();
+        this.blockFonts = blockFonts;
     }
 
-    public TextFrame() {
+    public TextFrame(BlockFonts blockFonts) {
         this.langBounds = new HashMap<>();
+        this.blockFonts = blockFonts;
     }
 
     //Add language bound to the text frame
@@ -67,14 +70,18 @@ public class TextFrame {
                 for (int z = 0; z < z1 - z2 + 1; z++) {
                     Block block = langWorld.getBlockAt(x + x3, y + y3, z + z3);
                     Location location = new Location(mainWorld, x + x2, y + y2, z + z2);
-                    player.sendBlockChange(location, block.getBlockData());
+                    if (blockFonts.checkNewApi()) {
+                        player.sendBlockChange(location, block.getBlockData());
+                    }else{
+
+                        player.sendBlockChange(location, block.getType(), block.getState().getRawData());
+                    }
                 }
             }
         }
     }
 
     public String getCreatedLanguages() {
-        BlockFonts blockFonts = (BlockFonts) Bukkit.getServer().getPluginManager().getPlugin("BlockFonts");
         List<Language> languages = blockFonts.getTriton().getLanguageManager().getAllLanguages();
         boolean containsAll = true;
         for (Language language : languages) {

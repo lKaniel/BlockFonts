@@ -49,7 +49,7 @@ public class ConfigManager {
 
             for (Map.Entry<String, Map<String, Object>> entry: ((HashMap<String,Map<String, Object>>) map.get("textFrames")).entrySet()) {
                 String name = entry.getKey();
-                TextFrame textFrame = new TextFrame().fromMap(entry.getValue());
+                TextFrame textFrame = new TextFrame(blockFonts).fromMap(entry.getValue());
                 blockFonts.loadTextFrame(name, textFrame);
             }
             textFramesStream.close();

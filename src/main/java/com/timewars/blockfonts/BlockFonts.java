@@ -54,6 +54,14 @@ public final class BlockFonts extends JavaPlugin {
         log("===============================================");
     }
 
+    //Check if api version can be used
+    public boolean checkNewApi(){
+        if (isRunningMinecraft(1, 13)) {
+            return true;
+        }
+        return false;
+    }
+
     //Initialize console and plugin manager
     public void innitUtility() {
         Server server = getServer();
@@ -73,9 +81,14 @@ public final class BlockFonts extends JavaPlugin {
     //Register all commands
     public void registerCommands() {
         MainCommand textFrame = new MainCommand();
-        textFrame.registerCommand("create", new CreateCommand(this));
+        if (checkNewApi()) {
+            textFrame.registerCommand("create", new CreateCommand(this));
+            textFrame.registerCommand("addLangFrame", new AddLangFrameCommand(this));
+        }else{
+            textFrame.registerCommand("create", new WE6CreateCommand(this));
+            textFrame.registerCommand("addLangFrame", new WE6AddLangFrameCommand(this));
+        }
         textFrame.registerCommand("remove", new RemoveCommand(this));
-        textFrame.registerCommand("addLangFrame", new AddLangFrameCommand(this));
         textFrame.registerCommand("removeLangFrame", new RemoveLangFrameCommand(this));
         textFrame.registerCommand("list", new ListCommand(this));
         Objects.requireNonNull(getCommand("textFrame")).setExecutor(textFrame);
@@ -91,7 +104,6 @@ public final class BlockFonts extends JavaPlugin {
     public void connectToPlugins() {
         triton = TritonAPI.getInstance();
         worldEditPlugin = (WorldEditPlugin) pluginManager.getPlugin("WorldEdit");
-
     }
 
     //Print status of the server
@@ -112,7 +124,7 @@ public final class BlockFonts extends JavaPlugin {
 
     //Create new text frame
     public void createTextFrame(String name, Location max, Location min) {
-        textFrameMap.put(name, new TextFrame(max, min));
+        textFrameMap.put(name, new TextFrame(max, min, this));
         configManager.saveTextFrames();
     }
 
@@ -170,5 +182,12 @@ public final class BlockFonts extends JavaPlugin {
     //Send message to server console
     public void log(String message) {
         console.sendMessage("[BlockFonts] " + message);
+    }
+
+    //Check minecraft version of the server
+    public boolean isRunningMinecraft(int major, int minor) {
+        int maj = Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[0].replace("v", ""));
+        int min = Integer.parseInt(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].split("_")[1]);
+        return maj >= major && min >= minor;
     }
 }
